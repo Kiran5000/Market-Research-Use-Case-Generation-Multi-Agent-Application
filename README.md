@@ -1,7 +1,7 @@
-# Market Research & Use Case Generation Agent
+# Market Research & Use Case Generation Multi Agent Application
 
 ## Overview
-The Market Research & Use Case Generation Agent is an AI-powered platform designed to revolutionize industry research and innovation. By leveraging state-of-the-art generative AI and machine learning technologies, this application provides actionable insights, innovative AI use cases, and tailored resources to businesses aiming to gain a competitive edge. The system integrates seamlessly into existing workflows, offering decision-makers unparalleled efficiency and scalability in strategic planning.
+The Market Research & Use Case Generation Multi AgentApplicaiton is an AI-powered platform designed to revolutionize industry research and innovation. By leveraging state-of-the-art generative AI and machine learning technologies, this application provides actionable insights, innovative AI use cases, and tailored resources to businesses aiming to gain a competitive edge. The system integrates seamlessly into existing workflows, offering decision-makers unparalleled efficiency and scalability in strategic planning.
 
 ## Key Features
 1. **Comprehensive Industry Analysis:**
@@ -71,7 +71,7 @@ The Market Research & Use Case Generation Agent is an AI-powered platform design
 ### Steps
 1. **Clone the Repository:**
    ```bash
-   git clone 
+   git clone "https://github.com/Kiran5000/Market-Research-Use-Case-Generation-Multi-Agent-Application.git"
    cd Market-Research-Use-Case-Generation-Multi-Agent-Application
 
    ```
