@@ -1,1 +1,1 @@
-# Market-Research-Use-Case-Generation-Multi-Agent-Application
+# Market-Research-and-Usecase-Generation-Agent-Application
