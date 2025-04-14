@@ -3,7 +3,6 @@ from crew import ask
 from fpdf import FPDF
 
 
-# Custom FPDF class for proper formatting
 class PDF(FPDF):
     def header(self):
         self.set_font("Times", "B", 14)
@@ -17,12 +16,9 @@ class PDF(FPDF):
 
 
 def format_and_clean(text):
-    # Remove markdown styling
-    text = text.replace("**", "").replace("##", "").replace("###", "").replace("* ", "- ")
-    return text
+    return text.replace("**", "").replace("##", "").replace("###", "").replace("* ", "- ")
 
 
-# Save content to a structured PDF
 def save_to_pdf(content, filename="Company_Research_Report.pdf"):
     pdf = PDF()
     pdf.add_page()
@@ -35,36 +31,27 @@ def save_to_pdf(content, filename="Company_Research_Report.pdf"):
         ("Resource Collection", content[2]),
     ]
 
-    for section_title, section_text in sections:
-        # Section Title
+    for title, section in sections:
         pdf.set_font("Times", "B", 13)
-        pdf.cell(0, 10, section_title, ln=True)
+        pdf.cell(0, 10, title, ln=True)
         pdf.ln(2)
         pdf.set_font("Times", "", 12)
 
-        # Clean and format content
-        formatted_lines = format_and_clean(section_text).split("\n")
-        for line in formatted_lines:
+        lines = format_and_clean(section).split("\n")
+        for line in lines:
             line = line.strip()
             if not line:
                 continue
-
-            # Subsections (Headings with colon)
-            if line.endswith(":") and not line.lower().startswith("http"):
+            elif line.endswith(":") and not line.lower().startswith("http"):
                 pdf.set_font("Times", "B", 12)
                 pdf.multi_cell(0, 8, line)
                 pdf.set_font("Times", "", 12)
-                pdf.ln(1)
-            # Numbered Points
             elif line[:2].isdigit() or (len(line) > 2 and line[1] == "." and line[0].isdigit()):
                 pdf.set_font("Times", "B", 12)
                 pdf.multi_cell(0, 8, line)
                 pdf.set_font("Times", "", 12)
-                pdf.ln(1)
-            # Bullets
             elif line.startswith("- "):
                 pdf.multi_cell(0, 8, f"  - {line[2:]}")
-            # Regular paragraphs
             else:
                 pdf.multi_cell(0, 8, line)
         pdf.ln(5)
@@ -72,19 +59,12 @@ def save_to_pdf(content, filename="Company_Research_Report.pdf"):
     pdf.output(filename)
 
 
-# Streamlit App
 def main():
     st.set_page_config(page_title="AI Insight Wizard", layout="centered")
     st.title("🌐 AI-Powered Insight Wizard 🌐")
     st.subheader("Your Ultimate Assistant for Industry Research & Innovation")
 
-    st.markdown("""
-        Welcome to the AI Insight Wizard!  
-        Generate in-depth industry insights, discover transformative AI use cases,  
-        and compile tailored resources for seamless innovation.
-    """)
-
-    st.markdown("### Enter a Company or Industry to Begin:")
+    st.markdown("Enter a Company or Industry to Begin:")
     query = st.text_input("e.g., Fintech, Renewable Energy, SpaceX")
 
     if 'response' not in st.session_state:
@@ -98,22 +78,15 @@ def main():
             response.tasks_output[2].raw,
         ]
 
-        section_labels = ["Industry Research Report", "AI Use Cases", "Resource Collection"]
-        for i, label in enumerate(section_labels):
+        for label, content in zip(["Industry Research Report", "AI Use Cases", "Resource Collection"], st.session_state.response):
             st.markdown(f"### {label}")
-            st.write(st.session_state.response[i])
+            st.write(content)
 
-    st.markdown("---")
-    st.markdown("### Save Your Report as PDF")
-    if st.button("🔗 Save as PDF") and st.session_state.get("response"):
+    if st.button("📄 Save Report as PDF") and st.session_state.get("response"):
         save_to_pdf(st.session_state.response)
-        st.session_state.pdf_saved = True
-        st.success("📄 PDF saved successfully!")
-
-    if st.session_state.get("pdf_saved", False):
         with open("Company_Research_Report.pdf", "rb") as f:
             st.download_button(
-                label="📥 Download Report",
+                label="📥 Download PDF",
                 data=f,
                 file_name="Company_Research_Report.pdf",
                 mime="application/pdf"
