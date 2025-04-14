@@ -1,8 +1,9 @@
 crewai
-crewai_tools
+crewai-tools
+google-generativeai
 langchain_community
-langchain-together
 langchain-google-genai
 streamlit
 fpdf
 python-dotenv
+langchain-together
